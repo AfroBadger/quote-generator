@@ -5,10 +5,11 @@ const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 const apiStatus = document.getElementById('api-status')
+const apiSwitch = document.getElementById('api-switch')
 
 let apiQuotes = [];
 let errorCount = 0;
-let quoteSourceApi = true;
+let quoteSourceApi = function e() {return document.querySelector('#api-switch:checked') !== null;}
 
 // Show Loading wheel
 function showLoadingWheel() {
@@ -23,26 +24,34 @@ function hideLoadingWheel() {
 }
 
 function apiStatusDown() {
-    let classname = 'fas fa-hdd';
-    let classcount = document.getElementsByClassName(classname).length
-    if (classcount == 0) {
-        const apiDownIcon = document.createElement("i");
-        apiDownIcon.className = classname;
+    apiDownIconExist = document.querySelector('#api-down') !== null;
+    apiUpIconExist = document.querySelector('#api-up') !== null;
+    if (apiDownIconExist == false)
+    {
+        const apiDownIcon = document.createElement('i');
+        apiDownIcon.className = 'fas fa-hdd';
+        apiDownIcon.id = 'api-down';
         apiStatus.appendChild(apiDownIcon);
     }
-
+    if (apiUpIconExist == true)
+    {
+        document.getElementById('api-up').remove();
+    }
 }
 
 function apiStatusUp() {
-    let classname = 'fas fa-signal';
-    let classcount = document.getElementsByClassName(classname).length
-    if (classcount == 0) {
-        const apiUpIcon = document.createElement("i");
-        apiUpIcon.className = classname;
+    apiDownIconExist = document.querySelector('#api-down') !== null;
+    apiUpIconExist = document.querySelector('#api-up') !== null;
+    if (apiUpIconExist == false)
+    {
+        const apiUpIcon = document.createElement('i');
+        apiUpIcon.className = 'fas fa-signal';
+        apiUpIcon.id = 'api-up';
         apiStatus.appendChild(apiUpIcon);
     }
-    else{
-        console.log('No api status update needed')
+    if (apiDownIconExist == true)
+    {
+        document.getElementById('api-down').remove();
     }
 }
 
@@ -53,7 +62,7 @@ function newQuote(){
     //Picks from local quotes in quotes.js
     //const quote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
     let quote = ""
-    if (quoteSourceApi) {
+    if (quoteSourceApi()) {
     // Pick a Random Quote from apiQuotes array
        quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
        console.log('source from API')
@@ -97,7 +106,7 @@ async function getQuotes() {
             getQuotes();
         }
         else {
-            quoteSourceApi = false;
+            apiSwitch.checked = false;
             newQuote();
         }
     }
