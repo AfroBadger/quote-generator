@@ -106,6 +106,7 @@ async function getQuotes() {
             getQuotes();
         }
         else {
+            console.log('api timeout - failover to local quotes')
             apiSwitch.checked = false;
             newQuote();
         }
@@ -120,7 +121,7 @@ function tweetQuote() {
 }
 
 // Event Listeners
-newQuoteBtn.addEventListener('click', newQuote);
+newQuoteBtn.addEventListener('click', getQuotes);
 twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
