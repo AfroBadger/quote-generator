@@ -23,16 +23,27 @@ function hideLoadingWheel() {
 }
 
 function apiStatusDown() {
-    const apiUpIcon = document.createElement("i");
-    apiUpIcon.className = 'fas fa-exclamation-triangle';
-    apiStatus.appendChild(apiUpIcon);
+    let classname = 'fas fa-hdd';
+    let classcount = document.getElementsByClassName(classname).length
+    if (classcount == 0) {
+        const apiDownIcon = document.createElement("i");
+        apiDownIcon.className = classname;
+        apiStatus.appendChild(apiDownIcon);
+    }
 
 }
 
 function apiStatusUp() {
-    const apiUpIcon = document.createElement("i");
-    apiUpIcon.className = 'fas fa-signal';
-    apiStatus.appendChild(apiUpIcon);
+    let classname = 'fas fa-signal';
+    let classcount = document.getElementsByClassName(classname).length
+    if (classcount == 0) {
+        const apiUpIcon = document.createElement("i");
+        apiUpIcon.className = classname;
+        apiStatus.appendChild(apiUpIcon);
+    }
+    else{
+        console.log('No api status update needed')
+    }
 }
 
 // Show New Quote
